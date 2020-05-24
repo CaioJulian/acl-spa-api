@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -48,7 +48,7 @@ class AuthController extends Controller
             ], 201); 
         } 
         else{ 
-            return response()->json(['error'=>'Unauthenticated!'], 401); 
+            return response()->json(['message'=>'Email e senha inválido!'], 401); 
         } 
     }
 
@@ -65,5 +65,18 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged out!'
         ], 201);
+    }
+
+    /**
+     * User api.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function user(Request $request)
+    {
+        $user = $request->user();
+        $user->roles;
+        return response()->json(['user'=>$user], 201); 
     }
 }

@@ -18,14 +18,28 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 }); */
 
-Route::post('login', 'Api\AuthController@login');
-//Route::post('register', 'Api\AuthController@register');
+Route::prefix('auth')->group(function () {
+    Route::post('login', 'API\AuthController@login');
+    //Route::post('register', 'API\AuthController@register');
 
-Route::middleware('auth:api')->group( function () {
-    Route::post('logout', 'Api\AuthController@logout');
+    Route::group(['middleware' => 'auth:api'], function(){
+        Route::post('user', 'API\AuthController@user');
+        Route::post('logout', 'API\AuthController@logout');
+    });
+});
+
+Route::middleware('auth:api')->group( function () {    
+    //Usuarios
+    Route::prefix('usuarios')->group(function () {
+        Route::get('', 'API\UserController@index');
+        Route::post('', 'API\UserController@store');
+        Route::put('/{id}', 'API\UserController@update');
+    });
     
-    Route::get('users', 'Api\UserController@users');
-    Route::post('user-register', 'Api\UserController@register');
-    Route::post('user', 'Api\UserController@user');
-    
+    // Papeis
+    Route::prefix('papeis')->group(function () {
+        Route::get('', 'API\RoleController@index');
+        Route::post('', 'API\RoleController@store');
+        Route::put('/{id}', 'API\RoleController@update');
+    });
 });

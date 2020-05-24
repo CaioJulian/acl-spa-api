@@ -1,8 +1,8 @@
-## Install passport via the Composer
-$ composer require laravel/passport
-
 ## Require to get default migration for create new passport tables in our database
 $ php artisan migrate
 
 ## Install passport using command, Using passport:install command, it will create token keys for security
 $ php artisan passport:install
+
+## Create new seeder for creating admin user.
+$ php artisan db:seed
